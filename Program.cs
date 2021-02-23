@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace SupportBank
@@ -12,11 +10,11 @@ namespace SupportBank
         {
             FileStream aFile = new FileStream("./Transactions2014.csv", FileMode.Open);
             StreamReader sr = new StreamReader(aFile);
-            // skip the first line (the column headers)
+            // Skip the first line (the column headers)
             string line = sr.ReadLine();
             List<Transaction> Transactions = new List<Transaction>();
 
-            // read data in line by line
+            // Read data in line by line
             while ((line = sr.ReadLine()) != null)
             {
                 string[] columns = line.Split(',');
@@ -26,6 +24,8 @@ namespace SupportBank
 
             Dictionary<string, Person> Ledger = new Dictionary<string, Person>();
 
+            // For each transaction, add the transaction to the two people's incoming/outgoing transactions,
+            // making sure to create an account for a person if it doesn't exist already
             foreach(var Transaction in Transactions) {
                 if (!Ledger.ContainsKey(Transaction.To)) {
                     Ledger.Add(Transaction.To, new Person(Transaction.To));
@@ -37,8 +37,9 @@ namespace SupportBank
                 Ledger[Transaction.From].OutgoingTransactions.Add(Transaction);                
             }           
 
+            // Print out how much each person owes or is owed
             foreach(var Person in Ledger.Values) {
-                Console.WriteLine($"{Person.Name} {(Person.CalculateNetMoney() > 0 ? "owes" : "is owed")} £{Math.Round(Math.Abs(Person.CalculateNetMoney()), 2)}");
+                Console.WriteLine($"{Person.Name} {(Person.CalculateNetMoney() > 0 ? "owes" : "is owed")} £{String.Format("{0:0.00}", Math.Abs(Person.CalculateNetMoney()))}");
             }
         }
     }

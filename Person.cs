@@ -6,14 +6,16 @@ using System.Linq;
 namespace SupportBank {   
     class Person {
         public string Name { get; set; }
-        public List<Transaction> IncomingTransactions { get; set; }
-        public List<Transaction> OutgoingTransactions { get; set; }
+        public List<Transaction> IncomingTransactions { get; private set; }
+        public List<Transaction> OutgoingTransactions { get; private set; }
 
         // Constructor 
-        public Person(string name, List<Transaction> transactions) {
+        public Person(string name) {
             Name = name;
-            IncomingTransactions = transactions.Where(x => x.To == name).ToList();
-            OutgoingTransactions = transactions.Where(x => x.From == name).ToList();
+            IncomingTransactions = new List<Transaction>();
+            OutgoingTransactions = new List<Transaction>();
+            // IncomingTransactions = transactions.Where(x => x.To == name).ToList();
+            // OutgoingTransactions = transactions.Where(x => x.From == name).ToList();
         }
 
         public double CalculateNetMoney() {             

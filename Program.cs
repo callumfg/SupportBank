@@ -10,17 +10,21 @@ namespace SupportBank
     {
         static void Main(string[] args)
         {
-            string line;
             FileStream aFile = new FileStream("./Transactions2014.csv", FileMode.Open);
             StreamReader sr = new StreamReader(aFile);
+            // skip the first line (the column headers)
+            string line = sr.ReadLine();
+            List<string> Transactions = new List<string>();
 
             // read data in line by line
             while ((line = sr.ReadLine()) != null)
             {
-                Console.WriteLine(line);
-                line = sr.ReadLine();
+                // Console.WriteLine(line);
+                Transactions.Add(line);
             }
             sr.Close();
+
+            Transactions.ForEach(Console.WriteLine);
         }
     }
 }

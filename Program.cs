@@ -37,10 +37,27 @@ namespace SupportBank
                 Ledger[Transaction.From].OutgoingTransactions.Add(Transaction);                
             }           
 
-            // Print out how much each person owes or is owed
-            foreach(var Person in Ledger.Values) {
-                Console.WriteLine($"{Person.Name} {(Person.CalculateNetMoney() > 0 ? "owes" : "is owed")} £{String.Format("{0:0.00}", Math.Abs(Person.CalculateNetMoney()))}");
-            }
+            if (args[0] == "All") {
+                // Print out how much each person owes or is owed
+                foreach(var Person in Ledger.Values) {
+                    Console.WriteLine("{0,-11}{1,-10}{2,-10}",
+                                      Person.Name,
+                                      (Person.CalculateNetMoney() > 0 ? "owes" : "is owed"),
+                                      $"£{String.Format("{0:0.00}", Math.Abs(Person.CalculateNetMoney()))}");
+                }
+            } else if (Ledger.ContainsKey(args[0])) {
+                // Print out all the outgoing transactions for the specified person
+                Console.WriteLine("{0,-15}{1,-30}{2,-15}{3,-15}",
+                                  "Date", "Narrative", "To", "Amount");
+                Console.WriteLine(new String('-', 75));
+                foreach(var Transaction in Ledger[args[0]].OutgoingTransactions) {
+                    Console.WriteLine("{0,-15}{1,-30}{2,-15}{3,-15}",
+                                      Transaction.Date.ToShortDateString(),
+                                      Transaction.Narrative,
+                                      Transaction.To,
+                                      $"£{String.Format("{0:0.00}",Transaction.Amount)}");
+                }
+            }            
         }
     }
 }

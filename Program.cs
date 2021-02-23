@@ -14,17 +14,21 @@ namespace SupportBank
             StreamReader sr = new StreamReader(aFile);
             // skip the first line (the column headers)
             string line = sr.ReadLine();
-            List<string> Transactions = new List<string>();
+            List<Transaction> Transactions = new List<Transaction>();
 
             // read data in line by line
             while ((line = sr.ReadLine()) != null)
             {
-                // Console.WriteLine(line);
-                Transactions.Add(line);
+                string[] columns = line.Split(',');
+                Transactions.Add(new Transaction(columns));
             }
             sr.Close();
 
-            Transactions.ForEach(Console.WriteLine);
+            // string[] People = the unique values of all the names in the From and To of Transactions
+
+            // foreach (var Transaction in Transactions) {
+            //     Console.WriteLine(Transaction.To);
+            // }
         }
     }
 }

@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
 
 namespace SupportBank
 {
@@ -6,7 +10,17 @@ namespace SupportBank
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string line;
+            FileStream aFile = new FileStream("./Transactions2014.csv", FileMode.Open);
+            StreamReader sr = new StreamReader(aFile);
+
+            // read data in line by line
+            while ((line = sr.ReadLine()) != null)
+            {
+                Console.WriteLine(line);
+                line = sr.ReadLine();
+            }
+            sr.Close();
         }
     }
 }

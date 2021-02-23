@@ -1,0 +1,16 @@
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.exe
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.deps.json
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.runtimeconfig.json
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.runtimeconfig.dev.json
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.dll
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\ref\SupportBank.dll
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\SupportBank.pdb
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.csprojAssemblyReference.cache
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.AssemblyInfoInputs.cache
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.AssemblyInfo.cs
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.csproj.CoreCompileInputs.cache
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.dll
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\ref\SupportBank.dll
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.pdb
+C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.genruntimeconfig.cache

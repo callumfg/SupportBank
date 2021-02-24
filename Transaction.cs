@@ -1,7 +1,9 @@
 using System;
+using NLog;
 
 namespace SupportBank {   
     class Transaction {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         public DateTime Date { get; set; }
         public string From { get; set; }
         public string To { get; set; }
@@ -10,11 +12,22 @@ namespace SupportBank {
 
         // Constructor
         public Transaction(string[] args) {
-            Date = Convert.ToDateTime(args[0]); // needs converting to DateTime
+             try {
+                Date = Convert.ToDateTime(args[0]);
+            } 
+            catch (Exception ) {
+                Logger.Error($"{args[0]} is not a valid date.");
+                
+            } 
             From = args[1];
             To = args[2];
             Narrative = args[3];
-            Amount = Convert.ToDouble(args[4]);
+            try {
+                Amount = Convert.ToDouble(args[4]);
+            } 
+            catch (Exception) {
+                Logger.Error($"{args[4]} is not a valid amount.");
+            }            
         }
     }
 }

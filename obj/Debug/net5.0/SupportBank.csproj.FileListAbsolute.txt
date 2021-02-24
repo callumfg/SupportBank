@@ -16,3 +16,5 @@ C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.pdb
 C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.genruntimeconfig.cache
 C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\NLog.dll
 C:\Users\emipat\Documents\Training\SupportBank\obj\Debug\net5.0\SupportBank.csproj.CopyComplete
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\Json.Net.dll
+C:\Users\emipat\Documents\Training\SupportBank\bin\Debug\net5.0\Newtonsoft.Json.dll

@@ -60,9 +60,7 @@ namespace SupportBank
                                         Transaction.Narrative,
                                         Transaction.To,
                                         $"£{String.Format("{0:0.00}",Transaction.Amount)}");
-                    }
-
-                    
+                    }                    
                 }            
             }                   
         }

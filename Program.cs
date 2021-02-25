@@ -12,9 +12,9 @@ namespace SupportBank
     class Program
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-        private static (List<Transaction>, List<string[]>) ReadCsvTransactions()
+        private static (List<Transaction>, List<string[]>) ReadCsvTransactions(string filename)
         {
-            string filename = "./DodgyTransactions2015.csv";
+            // string filename = "./DodgyTransactions2015.csv";
             List<Transaction> Transactions = new List<Transaction>();
             List<string[]> SkippedTransactions = new List<string[]>();
             FileStream aFile = new FileStream(filename, FileMode.Open);
@@ -42,10 +42,10 @@ namespace SupportBank
             sr.Close();
             return (Transactions, SkippedTransactions);
         }
-        private static List<Transaction> ReadJsonTransactions()
+        private static List<Transaction> ReadJsonTransactions(string filename)
         {
             // string filename = @"./Transactions2013.json";
-            List<Transaction> Transactions = JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"./Transactions2013.json"));
+            List<Transaction> Transactions = JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(filename));
             return Transactions;
         }
         private static Dictionary<string, Person> PopulateLedger(List<Transaction> Transactions)
@@ -95,6 +95,33 @@ namespace SupportBank
                                 $"£{String.Format("{0:0.00}", Transaction.Amount)}");
             }
         }
+        private static void GetAndListAccount(Dictionary<string, Person> Ledger)
+        {
+            int Counter = 0;
+            Console.WriteLine("Enter the number of the person whose account you'd like to view:");
+            foreach (var name in Ledger.Keys)
+            {
+                Console.WriteLine($"{Counter + 1}. {name}");
+                Counter++;
+            }
+            int Option2 = 0;
+            while (Option2 < 1 || Option2 > Counter)
+            {
+                try
+                {
+                    Option2 = Int16.Parse(Console.ReadLine());
+                    if (Option2 < 1 || Option2 > Counter)
+                    {
+                        Console.WriteLine("Please enter a valid option.");
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine($"Please enter a positive integer between 1 and {Counter}.");
+                }
+            }
+            PrintOutgoings(Ledger, Ledger.Keys.ToArray()[Option2 - 1]);
+        }
         private static void PrintInvalidTransactions(List<string[]> SkippedTransactions)
         {
             if (SkippedTransactions.Count > 0)
@@ -131,17 +158,21 @@ namespace SupportBank
             Dictionary<string, Person> Ledger = new Dictionary<string, Person>();
 
             // Get user to specify file to import
-            Console.WriteLine("Please specify a file to import: for Json(j) for Csv(c)");
-            string filetype = Console.ReadLine();
+            // Console.WriteLine("Please specify a file to import: for Json(j) for Csv(c)");
+            // string filetype = Console.ReadLine();
+
+            Console.WriteLine("Please specify the path of the file you want to import:");
+            string Filename = Console.ReadLine();
+            string FileType = Path.GetExtension(Filename);
 
             // Read in JSON file and populate Transactions
-            if (filetype == "j")
+            if (FileType == ".json")
             {
-                Transactions = ReadJsonTransactions();
+                Transactions = ReadJsonTransactions(Filename);
             }
-            else if (filetype == "c")
+            else if (FileType == ".csv")
             {
-                (Transactions, SkippedTransactions) = ReadCsvTransactions();
+                (Transactions, SkippedTransactions) = ReadCsvTransactions(Filename);
             }
             else
             {
@@ -152,18 +183,17 @@ namespace SupportBank
             // making sure to create an account for a person if it doesn't exist already
             Ledger = PopulateLedger(Transactions);
 
-            if (args != null && args[0] == "List")
+            Console.WriteLine("Do you want to List All (1) or List [Account] (2)?");
+            string Option1 = Console.ReadLine();
+            if (Option1 == "1")
             {
-                if (args[1] == "All")
-                {
-                    PrintNetMonies(Ledger);
-                }
-                else if (Ledger.ContainsKey(args[1]))
-                {
-                    PrintOutgoings(Ledger, args[1]);
-                }
-                PrintInvalidTransactions(SkippedTransactions);
+                PrintNetMonies(Ledger);
             }
+            else if (Option1 == "2")
+            {
+                GetAndListAccount(Ledger);
+            }
+            PrintInvalidTransactions(SkippedTransactions);
         }
     }
 }

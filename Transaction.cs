@@ -16,23 +16,28 @@ namespace SupportBank {
         [JsonProperty]
         public double Amount { get; set; }
 
+        [JsonConstructor]
+        public Transaction() {
+            
+        }
+
         // Constructor
-        // public Transaction(string[] args) {
-        //      try {
-        //         Date = Convert.ToDateTime(args[0]);
-        //     } 
-        //     catch (Exception ) {
-        //         Logger.Error($"{args[0]} is not a valid date.");                
-        //     } 
-        //     From = args[1];
-        //     To = args[2];
-        //     Narrative = args[3];
-        //     try {
-        //         Amount = Convert.ToDouble(args[4]);
-        //     } 
-        //     catch (Exception) {
-        //         Logger.Error($"{args[4]} is not a valid amount.");
-        //     }            
-        // }
+        public Transaction(string[] args) {
+             try {
+                Date = Convert.ToDateTime(args[0]);
+            } 
+            catch (Exception ) {
+                Logger.Error($"{args[0]} is not a valid date.");                
+            } 
+            From = args[1];
+            To = args[2];
+            Narrative = args[3];
+            try {
+                Amount = Convert.ToDouble(args[4]);
+            } 
+            catch (Exception) {
+                Logger.Error($"{args[4]} is not a valid amount.");
+            }            
+        }
     }
 }

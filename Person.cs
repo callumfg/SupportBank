@@ -12,8 +12,6 @@ namespace SupportBank {
             Name = name;
             IncomingTransactions = new List<Transaction>();
             OutgoingTransactions = new List<Transaction>();
-            // IncomingTransactions = transactions.Where(x => x.To == name).ToList();
-            // OutgoingTransactions = transactions.Where(x => x.From == name).ToList();
         }
 
         public double CalculateNetMoney() {             

@@ -5,6 +5,8 @@ using System.Linq;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SupportBank
 {
@@ -21,39 +23,50 @@ namespace SupportBank
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
             LogManager.Configuration = config;
             
-            // FileStream aFile = new FileStream("./Transactions2014.csv", FileMode.Open);
-            FileStream aFile = new FileStream("./DodgyTransactions2015.csv", FileMode.Open);
-            
-            StreamReader sr = new StreamReader(aFile);
-            // Skip the first line (the column headers)
-            string line = sr.ReadLine();
             List<Transaction> Transactions = new List<Transaction>();
             List<string[]> SkippedTransactions = new List<string[]>();
-
-            // Read data in line by line
-            while ((line = sr.ReadLine()) != null)
-            {
-                bool ColumnsIsValid;
-                string[] columns = line.Split(',');
-
-                if (columns.Length == 5 && 
-                    DateTime.TryParse(columns[0], out DateTime TestDate) && 
-                    Double.TryParse(columns[4], out double TestDouble)
-                    ) {
-                    ColumnsIsValid = true;
-                } else {
-                    ColumnsIsValid = false;
-                }
-
-                if (ColumnsIsValid) {
-                    Transactions.Add(new Transaction(columns));
-                } else {
-                    SkippedTransactions.Add(columns);
-                }              
-            }
-            sr.Close();
-
             Dictionary<string, Person> Ledger = new Dictionary<string, Person>();
+
+            // CHANGE - Get which type of file from user input
+            bool jsonfile = true;
+            bool csvfile = false;
+
+            // Read in JSON file and populate Transactions
+            if (jsonfile) {
+                Transactions = JsonConvert.DeserializeObject<List<Transaction>>(File.ReadAllText(@"./Transactions2013.json"));
+            }
+
+            if (csvfile) {
+                // FileStream aFile = new FileStream("./Transactions2014.csv", FileMode.Open);
+                FileStream aFile = new FileStream("./DodgyTransactions2015.csv", FileMode.Open);
+                
+                StreamReader sr = new StreamReader(aFile);
+                // Skip the first line (the column headers)
+                string line = sr.ReadLine();                
+
+                // Read data in line by line
+                while ((line = sr.ReadLine()) != null)
+                {
+                    bool ColumnsIsValid;
+                    string[] columns = line.Split(',');
+
+                    if (columns.Length == 5 && 
+                        DateTime.TryParse(columns[0], out DateTime TestDate) && 
+                        Double.TryParse(columns[4], out double TestDouble)
+                        ) {
+                        ColumnsIsValid = true;
+                    } else {
+                        ColumnsIsValid = false;
+                    }
+
+                    if (ColumnsIsValid) {
+                        Transactions.Add(new Transaction(columns));
+                    } else {
+                        SkippedTransactions.Add(columns);
+                    }              
+                }
+                sr.Close();
+            }            
 
             // For each transaction, add the transaction to the two people's incoming/outgoing transactions,
             // making sure to create an account for a person if it doesn't exist already
@@ -92,24 +105,26 @@ namespace SupportBank
                                         Transaction.To,
                                         $"£{String.Format("{0:0.00}",Transaction.Amount)}");
                     }                    
-                }   
-                // print out SkippedTransactions  
-                if (SkippedTransactions.Count > 0) {
-                    Console.WriteLine("\nThe following transactions were skipped as they were invalid.\n");
-
-                    // Calculate column widths here
-                    int DateColWidth = SkippedTransactions.Max(x => x[0].Length)+3;
-                    int NarrColWidth = SkippedTransactions.Max(x => x[3].Length)+3;
-                    int AmountColWidth = SkippedTransactions.Max(x => x[4].Length)+3;
-                    string ColFormat = $"{{0,-{DateColWidth}}} {{1,-15}} {{2,-15}} {{3,-{NarrColWidth}}} {{4,{AmountColWidth}}}";
-
-                    Console.WriteLine(ColFormat,
-                                      "Date", "From", "To", "Narrative", "Amount");
-                    Console.WriteLine(new String('-', DateColWidth + NarrColWidth + AmountColWidth + 35));
-                    foreach(var transaction in SkippedTransactions) {
-                        Console.WriteLine(ColFormat, transaction[0], transaction[1], transaction[2], transaction[3], transaction[4]);
-                    }                
                 }  
+                // print out SkippedTransactions 
+                if (csvfile) {
+                    if (SkippedTransactions.Count > 0) {
+                        Console.WriteLine("\nThe following transactions were skipped as they were invalid.\n");
+
+                        // Calculate column widths here
+                        int DateColWidth = SkippedTransactions.Max(x => x[0].Length)+3;
+                        int NarrColWidth = SkippedTransactions.Max(x => x[3].Length)+3;
+                        int AmountColWidth = SkippedTransactions.Max(x => x[4].Length)+3;
+                        string ColFormat = $"{{0,-{DateColWidth}}} {{1,-15}} {{2,-15}} {{3,-{NarrColWidth}}} {{4,{AmountColWidth}}}";
+
+                        Console.WriteLine(ColFormat,
+                                        "Date", "From", "To", "Narrative", "Amount");
+                        Console.WriteLine(new String('-', DateColWidth + NarrColWidth + AmountColWidth + 35));
+                        foreach(var transaction in SkippedTransactions) {
+                            Console.WriteLine(ColFormat, transaction[0], transaction[1], transaction[2], transaction[3], transaction[4]);
+                        }                
+                    }      
+                }                              
             }                   
         }
     }

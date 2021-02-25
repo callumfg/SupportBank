@@ -3,3 +3,13 @@ bin/Debug/net5.0/SupportBank.pdb
 obj/Debug/net5.0/SupportBank.csprojAssemblyReference.cache
 obj/Debug/net5.0/SupportBank.dll
 obj/Debug/net5.0/SupportBank.pdb
+
+bin/Debug/net5.0/SupportBank.dll~reading-json
+bin/Debug/net5.0/SupportBank.pdb~reading-json
+obj/Debug/net5.0/SupportBank.csprojAssemblyReference.cache~reading-json
+obj/Debug/net5.0/SupportBank.dll~reading-json
+obj/Debug/net5.0/SupportBank.pdb~reading-json
+
+bin/Debug/net5.0/ref/SupportBank.dll
+obj/Debug/net5.0/SupportBank.assets.cache
+obj/Debug/net5.0/ref/SupportBank.dll

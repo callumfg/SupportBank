@@ -145,7 +145,6 @@ namespace SupportBank
         }
         static void Main(string[] args)
         {
-
             // Stuff for using NLog
             var config = new LoggingConfiguration();
             var target = new FileTarget { FileName = @"C:\Users\emipat\Documents\Training\logs\SupportBank.log", Layout = @"${longdate} ${level} - ${logger}: ${message}" };
@@ -158,9 +157,6 @@ namespace SupportBank
             Dictionary<string, Person> Ledger = new Dictionary<string, Person>();
 
             // Get user to specify file to import
-            // Console.WriteLine("Please specify a file to import: for Json(j) for Csv(c)");
-            // string filetype = Console.ReadLine();
-
             Console.WriteLine("Please specify the path of the file you want to import:");
             string Filename = Console.ReadLine();
             string FileType = Path.GetExtension(Filename);
